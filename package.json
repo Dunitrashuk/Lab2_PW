@@ -1,0 +1,17 @@
+{
+  "name": "go2web",
+  "version": "1.0.0",
+  "description": "go2web CLI",
+  "main": "index.js",
+  "preferGlobal": true,
+  "bin": "./index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mamaliga Dumitras",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.26.0",
+    "commander": "^9.0.0"
+  }
+}
