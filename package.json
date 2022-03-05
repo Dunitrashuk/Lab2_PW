@@ -12,6 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.26.0",
-    "commander": "^9.0.0"
+    "commander": "^9.0.0",
+    "open": "^8.4.0"
   }
 }
