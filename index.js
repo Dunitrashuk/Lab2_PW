@@ -2,6 +2,7 @@
 const program = require('commander');
 const axios = require('axios');
 const net = require('net');
+const tls = require('tls');
 
 program
     .version('1.0.0')
@@ -31,27 +32,14 @@ program
 program.parse(process.argv);
 
 function accessUrl(url) {
-    // const https = require('https');
 
+    const a = new URL(url)
 
-    // https.get(url, (response) => {
-    //     let data = '';
-
-    //     response.on('data', (chunck) => {
-    //         data += chunck;
-    //     });
-
-    //     response.on('end', () => {
-    //         console.log(response);
-    //     });
-
-    // }).on('error', (error) => {
-    //     console.log(error);
-    // })
-    let host = String(url),
-        port = process.env.PORT || 80,
-        socket = net.connect(port, host, function () {
-            let request = "GET / HTTP/1.1\r\nHost: " + host + "\r\n\r\n",
+    let host = a.host,
+        path = a.pathname + a.search,
+        port = 443,
+        socket = tls.connect(port, host, function () {
+            let request = "GET " + path + " HTTP/1.1\r\nHost: " + host + "\r\n\r\n",
                 rawResponse = "";
 
             socket.end(request);
@@ -59,6 +47,9 @@ function accessUrl(url) {
             socket.on('data', function (chunk) {
                 rawResponse += chunk;
             });
+            socket.on('error', function (error) {
+                console.log(error);
+            })
             socket.on('end', function () {
                 console.log(rawResponse);
             });
@@ -66,6 +57,29 @@ function accessUrl(url) {
 }
 
 function search(term) {
+
+    // const a = new URL("http://api.serpstack.com/search?access_key=2f24dd4923e06ebd203b40a40b455d0f&type=web&query=" + term);
+
+    // let host = a.host,
+    //     path = a.pathname + a.search,
+    //     port = 443;
+
+    // socket = net.connect(port, host, function () {
+    //     let request = "GET " + path + " HTTP/1.1\r\nHost: " + host + "\r\n\r\n",
+    //         rawResponse = "";
+
+    //     socket.end(request);
+    //     socket.setEncoding('utf-8');
+    //     socket.on('data', function (chunk) {
+    //         rawResponse += chunk;
+    //     });
+    //     socket.on('error', function (error) {
+    //         console.log(error);
+    //     })
+    //     socket.on('end', function () {
+    //         console.log(rawResponse);
+    //     });
+    // })
     const params = {
         access_key: '2f24dd4923e06ebd203b40a40b455d0f',
         query: String(term)
